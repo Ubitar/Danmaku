@@ -32,6 +32,7 @@
     repositories {
         google()// 不翻墙可以注释掉
         jcenter()
+        maven { url "https://www.jitpack.io" }
     }
 }
 ```
@@ -43,7 +44,7 @@
     ...
    
     /*需要添加的依赖 这里可以查看一下上面的最新版本*/
-    implementation 'com.github.kathline:Danmaku:xxx'
+    implementation 'com.github.kathline:Danmaku:1.0.0'
  }
 ```
 
