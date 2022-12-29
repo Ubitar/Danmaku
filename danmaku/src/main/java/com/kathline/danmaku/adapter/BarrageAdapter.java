@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 
