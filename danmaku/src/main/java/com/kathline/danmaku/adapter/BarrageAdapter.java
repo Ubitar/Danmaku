@@ -26,6 +26,8 @@ public abstract class BarrageAdapter<T extends DataSource>
 
     private static final int MSG_CREATE_VIEW = 1;
 
+    // 播放结束监听
+    private IOnPlayFinishListener onFinishListener;
     // View的点击监听
     private AdapterListener<T> mAdapterListener;
     // 类型List
@@ -61,14 +63,19 @@ public abstract class BarrageAdapter<T extends DataSource>
         this.mAdapterListener = adapterListener;
     }
 
+    /**
+     * 设置所有弹幕已播放的监听
+     * @param onFinishListener
+     */
+    public void setOnPlayFinishListener(IOnPlayFinishListener onFinishListener) {
+        this.onFinishListener = onFinishListener;
+    }
 
     public void setBarrageView(IBarrageView barrageView) {
         this.barrageView = barrageView;
         this.interval = barrageView.getInterval();
         this.repeat = barrageView.getRepeat();
     }
-
-    // TODO 数据的增加处理
 
     /**
      * 创建子视图的过程
@@ -231,6 +238,7 @@ public abstract class BarrageAdapter<T extends DataSource>
                     sendMsg(len);
                 }
             }
+            onFinishListener.onFinish();
         }
     }
 

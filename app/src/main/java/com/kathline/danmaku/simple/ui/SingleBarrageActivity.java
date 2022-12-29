@@ -3,15 +3,17 @@ package com.kathline.danmaku.simple.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.kathline.danmaku.simple.arragephotoview.R;
-import com.kathline.danmaku.simple.data.BarrageData;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.kathline.danmaku.adapter.BarrageAdapter;
+import com.kathline.danmaku.adapter.IOnPlayFinishListener;
+import com.kathline.danmaku.simple.arragephotoview.R;
+import com.kathline.danmaku.simple.data.BarrageData;
 import com.kathline.danmaku.ui.BarrageView;
 import com.kathline.danmaku.ui.SingleTextView;
 
@@ -50,13 +52,6 @@ public class SingleBarrageActivity extends AppCompatActivity {
             }
         });
 
-        /*btnStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                barrageView.destroy();
-            }
-        });*/
     }
 
     @Override
@@ -74,8 +69,7 @@ public class SingleBarrageActivity extends AppCompatActivity {
                 .setRepeat(-1)                                       // 循环播放 默认为1次 -1 为无限循环
                 .setClick(false);                                    // 设置弹幕是否可以点击
         barrageView.setOptions(options);
-        // 设置适配器 第一个参数是点击事件的监听器
-        barrageView.setAdapter(mAdapter = new BarrageAdapter<BarrageData>(null, this) {
+        mAdapter = new BarrageAdapter<BarrageData>(null, this) {
             @Override
             public BarrageViewHolder<BarrageData> onCreateViewHolder(View root, int type) {
                 return new SingleBarrageActivity.ViewHolder(root);
@@ -85,13 +79,21 @@ public class SingleBarrageActivity extends AppCompatActivity {
             public int getItemLayout(BarrageData barrageData) {
                 return R.layout.barrage_item_normal;
             }
+        };
+        mAdapter.setOnPlayFinishListener(new IOnPlayFinishListener() {
+            @Override
+            public void onFinish() {
+                //所有弹幕已播放
+            }
         });
+        // 设置适配器 第一个参数是点击事件的监听器
+        barrageView.setAdapter(mAdapter);
     }
 
     private void initData() {
         int strLength = SEED.length;
         List<BarrageData> dataList = new LinkedList<>();
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 5; i++) {
             dataList.add(new BarrageData(SEED[i % strLength], 0, i));
         }
         mAdapter.addList(dataList);
